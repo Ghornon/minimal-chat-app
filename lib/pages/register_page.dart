@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:minimal_chat_app/auth/auth_service.dart';
+import 'package:minimal_chat_app/services/auth/auth_service.dart';
 import 'package:minimal_chat_app/components/custom_button.dart';
 import 'package:minimal_chat_app/components/custom_textfield.dart';
 
@@ -13,11 +12,11 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({super.key, required this.onTap});
 
   void register(BuildContext context) {
-    final _authService = AuthService();
+    final authService = AuthService();
 
     if (_passwordController.text == _retypeController.text) {
       try {
-        _authService.signUpWithEmailAndPassword(
+        authService.signUpWithEmailAndPassword(
           _emailController.text,
           _passwordController.text,
         );
@@ -34,7 +33,7 @@ class RegisterPage extends StatelessWidget {
     } else {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (context) => const AlertDialog(
           title: Text("Passwords don't match!"),
         ),
       );
