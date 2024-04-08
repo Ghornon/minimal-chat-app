@@ -3,11 +3,13 @@ import 'package:minimal_chat_app/services/auth/auth_service.dart';
 import 'package:minimal_chat_app/components/custom_button.dart';
 import 'package:minimal_chat_app/components/custom_textfield.dart';
 
+import '../components/widgets/widgets.dart';
+
 class RegisterPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _retypeController = TextEditingController();
-  void Function()? onTap;
+  final void Function()? onTap;
 
   RegisterPage({super.key, required this.onTap});
 
@@ -21,22 +23,10 @@ class RegisterPage extends StatelessWidget {
           _passwordController.text,
         );
       } catch (error) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(
-              error.toString(),
-            ),
-          ),
-        );
+        showSnackBar(context, Colors.red, error.toString());
       }
     } else {
-      showDialog(
-        context: context,
-        builder: (context) => const AlertDialog(
-          title: Text("Passwords don't match!"),
-        ),
-      );
+      showSnackBar(context, Colors.red, "Passwords don't match!");
     }
   }
 

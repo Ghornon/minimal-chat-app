@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minimal_chat_app/components/widgets/widgets.dart';
 import 'package:minimal_chat_app/services/auth/auth_service.dart';
 import 'package:minimal_chat_app/components/custom_button.dart';
 import 'package:minimal_chat_app/components/custom_textfield.dart';
@@ -18,14 +19,7 @@ class LoginPage extends StatelessWidget {
         _passwordController.text,
       );
     } catch (error) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            error.toString(),
-          ),
-        ),
-      );
+      showSnackBar(context, Colors.red, error.toString());
     }
   }
 

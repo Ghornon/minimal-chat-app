@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:minimal_chat_app/components/chat_bubble.dart';
@@ -11,7 +9,7 @@ class ChatPage extends StatefulWidget {
   final String receiverId;
   final String receiverEmail;
 
-  ChatPage({
+  const ChatPage({
     super.key,
     required this.receiverId,
     required this.receiverEmail,
@@ -106,8 +104,9 @@ class _ChatPageState extends State<ChatPage> {
       builder: (context, snapshot) {
         if (snapshot.hasError) return const Text("Error");
 
-        if (snapshot.connectionState == ConnectionState.waiting)
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const Text("Loading...");
+        }
 
         return ListView(
           controller: scrollController,

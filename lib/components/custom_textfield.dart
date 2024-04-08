@@ -18,7 +18,7 @@ class CustomTextFiled extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: TextField(
+        child: TextFormField(
           obscureText: obscureText,
           controller: controller,
           decoration: InputDecoration(
