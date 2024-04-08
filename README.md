@@ -14,3 +14,9 @@ flutter pub add firebase_core
 flutter pub add firebase_auth
 flutter pub add cloud_firestore
 ```
+
+Theme
+
+```bash
+flutter pub add provider
+```
