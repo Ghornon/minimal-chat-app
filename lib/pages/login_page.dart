@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:minimal_chat_app/components/widgets/widgets.dart';
 import 'package:minimal_chat_app/services/auth/auth_service.dart';
 import 'package:minimal_chat_app/components/custom_button.dart';
@@ -39,7 +40,7 @@ class LoginPage extends StatelessWidget {
           Text(
             "Welcome back, you,ve been missed!",
             style: TextStyle(
-                color: Theme.of(context).colorScheme.primary, fontSize: 16),
+                color: Theme.of(context).colorScheme.primary, fontSize: 26),
           ),
 
           const SizedBox(
@@ -47,7 +48,11 @@ class LoginPage extends StatelessWidget {
           ),
 
           // logo
-          Image.asset("undraw_Online_chat_re_c4lx.png"),
+          Icon(
+            Icons.message_outlined,
+            size: 60,
+          ),
+          //SvgPicture.asset('assets/undraw_chatting_re_j55r.svg',),
 
           const SizedBox(
             height: 25,

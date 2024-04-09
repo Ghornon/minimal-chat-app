@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:minimal_chat_app/services/auth/auth_service.dart';
 import 'package:minimal_chat_app/components/custom_button.dart';
 import 'package:minimal_chat_app/components/custom_textfield.dart';
@@ -42,17 +43,17 @@ class RegisterPage extends StatelessWidget {
           Text(
             "Create an new account!",
             style: TextStyle(
-                color: Theme.of(context).colorScheme.primary, fontSize: 16),
+                color: Theme.of(context).colorScheme.primary, fontSize: 26),
           ),
 
           const SizedBox(
             height: 25,
           ),
           // logo
-          Image.asset("undraw_sign_up_ln1s.png"),
+          SvgPicture.asset('assets/undraw_sign_up_ln1s.svg'),
 
           const SizedBox(
-            height: 25,
+            height: 15,
           ),
 
           // textfields
