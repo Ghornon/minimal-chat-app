@@ -30,9 +30,9 @@ class HomePage extends StatelessWidget {
     return StreamBuilder(
       stream: chatService.getUserStream(),
       builder: (context, snapshot) {
-        if (snapshot.hasError) return const Text("Error");
+        if (snapshot.hasError) return Text(snapshot.error.toString());
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Loading");
+          return const CircularProgressIndicator();
         }
 
         return ListView(

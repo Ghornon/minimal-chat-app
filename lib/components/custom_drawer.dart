@@ -13,7 +13,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -25,7 +25,7 @@ class CustomDrawer extends StatelessWidget {
                   child: Icon(
                     Icons.message,
                     color: Theme.of(context).colorScheme.primary,
-                    size: 40,
+                    size: 60,
                   ),
                 ),
               ),

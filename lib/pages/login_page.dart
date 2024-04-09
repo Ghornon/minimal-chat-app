@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:minimal_chat_app/components/widgets/widgets.dart';
 import 'package:minimal_chat_app/services/auth/auth_service.dart';
@@ -5,21 +6,24 @@ import 'package:minimal_chat_app/components/custom_button.dart';
 import 'package:minimal_chat_app/components/custom_textfield.dart';
 
 class LoginPage extends StatelessWidget {
+  final formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  void Function()? onTap;
+  final void Function()? onTap;
 
   LoginPage({super.key, required this.onTap});
 
   void login(BuildContext context) async {
-    final authService = AuthService();
-    try {
-      await authService.signInWithEmailAndPassword(
-        _emailController.text,
-        _passwordController.text,
-      );
-    } catch (error) {
-      showSnackBar(context, Colors.red, error.toString());
+    if (formKey.currentState!.validate()) {
+      final authService = AuthService();
+      try {
+        await authService.signInWithEmailAndPassword(
+          _emailController.text,
+          _passwordController.text,
+        );
+      } catch (error) {
+        showSnackBar(context, Colors.red, error.toString());
+      }
     }
   }
 
@@ -31,16 +35,6 @@ class LoginPage extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // logo
-          Icon(
-            Icons.message,
-            size: 60,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-
-          const SizedBox(
-            height: 50,
-          ),
           // welcome back message
           Text(
             "Welcome back, you,ve been missed!",
@@ -52,60 +46,85 @@ class LoginPage extends StatelessWidget {
             height: 25,
           ),
 
+          // logo
+          Image.asset("undraw_Online_chat_re_c4lx.png"),
+
+          const SizedBox(
+            height: 25,
+          ),
+
           // textfields
-          CustomTextFiled(
-            hintText: "Email",
-            obscureText: false,
-            controller: _emailController,
-          ),
+          Form(
+            key: formKey,
+            child: Column(
+              children: [
+                CustomTextFiled(
+                  hintText: "Email",
+                  obscureText: false,
+                  controller: _emailController,
+                  validator: (value) {
+                    return RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value!)
+                        ? null
+                        : "Enter valid email";
+                  },
+                ),
 
-          const SizedBox(
-            height: 10,
-          ),
+                const SizedBox(
+                  height: 10,
+                ),
 
-          CustomTextFiled(
-            hintText: "Password",
-            obscureText: true,
-            controller: _passwordController,
+                CustomTextFiled(
+                  hintText: "Password",
+                  obscureText: true,
+                  controller: _passwordController,
+                  validator: (value) {
+                    if (value!.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
+
+                    return null;
+                  },
+                ),
+
+                const SizedBox(
+                  height: 25,
+                ),
+
+                // login button
+
+                CustomButton(
+                  text: "Sign in",
+                  onTap: () => login(context),
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(
             height: 25,
           ),
-
-          // login button
-
-          CustomButton(
-            text: "Login",
-            onTap: () => login(context),
-          ),
-
-          const SizedBox(
-            height: 25,
-          ),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Don't have an account? ",
+          Center(
+            child: Text.rich(
+              TextSpan(
+                text: "Don't have an account? ",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                 ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: "Create account here",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()..onTap = onTap,
+                  )
+                ],
               ),
-              GestureDetector(
-                onTap: onTap,
-                child: Text(
-                  "Register here",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-          // register now
         ],
       )),
     );

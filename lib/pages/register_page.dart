@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:minimal_chat_app/services/auth/auth_service.dart';
 import 'package:minimal_chat_app/components/custom_button.dart';
@@ -6,6 +7,7 @@ import 'package:minimal_chat_app/components/custom_textfield.dart';
 import '../components/widgets/widgets.dart';
 
 class RegisterPage extends StatelessWidget {
+  final formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _retypeController = TextEditingController();
@@ -16,7 +18,7 @@ class RegisterPage extends StatelessWidget {
   void register(BuildContext context) {
     final authService = AuthService();
 
-    if (_passwordController.text == _retypeController.text) {
+    if (formKey.currentState!.validate()) {
       try {
         authService.signUpWithEmailAndPassword(
           _emailController.text,
@@ -25,8 +27,6 @@ class RegisterPage extends StatelessWidget {
       } catch (error) {
         showSnackBar(context, Colors.red, error.toString());
       }
-    } else {
-      showSnackBar(context, Colors.red, "Passwords don't match!");
     }
   }
 
@@ -38,16 +38,6 @@ class RegisterPage extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // logo
-          Icon(
-            Icons.message,
-            size: 60,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-
-          const SizedBox(
-            height: 50,
-          ),
           // welcome back message
           Text(
             "Create an new account!",
@@ -58,69 +48,106 @@ class RegisterPage extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
+          // logo
+          Image.asset("undraw_sign_up_ln1s.png"),
+
+          const SizedBox(
+            height: 25,
+          ),
 
           // textfields
-          CustomTextFiled(
-            hintText: "Email",
-            obscureText: false,
-            controller: _emailController,
-          ),
+          Form(
+            key: formKey,
+            child: Column(
+              children: [
+                CustomTextFiled(
+                  hintText: "Email",
+                  obscureText: false,
+                  controller: _emailController,
+                  validator: (value) {
+                    return RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value!)
+                        ? null
+                        : "Enter valid email";
+                  },
+                ),
 
-          const SizedBox(
-            height: 10,
-          ),
+                const SizedBox(
+                  height: 10,
+                ),
 
-          CustomTextFiled(
-            hintText: "Password",
-            obscureText: true,
-            controller: _passwordController,
-          ),
+                CustomTextFiled(
+                  hintText: "Password",
+                  obscureText: true,
+                  controller: _passwordController,
+                  validator: (value) {
+                    if (value!.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
 
-          const SizedBox(
-            height: 10,
-          ),
+                    return null;
+                  },
+                ),
 
-          CustomTextFiled(
-            hintText: "Retype password",
-            obscureText: true,
-            controller: _retypeController,
+                const SizedBox(
+                  height: 10,
+                ),
+
+                CustomTextFiled(
+                  hintText: "Retype password",
+                  obscureText: true,
+                  controller: _retypeController,
+                  validator: (value) {
+                    if (value!.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
+
+                    if (value != _passwordController.text) {
+                      return "The passwords does not match!";
+                    }
+
+                    return null;
+                  },
+                ),
+
+                const SizedBox(
+                  height: 25,
+                ),
+
+                // login button
+
+                CustomButton(
+                  text: "Sign up",
+                  onTap: () => register(context),
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(
             height: 25,
           ),
 
-          // login button
-
-          CustomButton(
-            text: "Sign up",
-            onTap: () => register(context),
-          ),
-
-          const SizedBox(
-            height: 25,
-          ),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Already haver an account? ",
+          Center(
+            child: Text.rich(
+              TextSpan(
+                text: "Already have an account? ",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                 ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: "Sign in now",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()..onTap = onTap,
+                  )
+                ],
               ),
-              GestureDetector(
-                onTap: onTap,
-                child: Text(
-                  "Login now",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
           // register now
         ],

@@ -5,6 +5,7 @@ class CustomTextFiled extends StatelessWidget {
   final bool obscureText;
   final TextEditingController controller;
   final FocusNode? focusNode;
+  final String? Function(String?)? validator;
 
   const CustomTextFiled({
     super.key,
@@ -12,6 +13,7 @@ class CustomTextFiled extends StatelessWidget {
     required this.obscureText,
     required this.controller,
     this.focusNode,
+    this.validator,
   });
 
   @override
@@ -21,6 +23,7 @@ class CustomTextFiled extends StatelessWidget {
         child: TextFormField(
           obscureText: obscureText,
           controller: controller,
+          validator: validator,
           decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(

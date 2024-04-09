@@ -102,10 +102,10 @@ class _ChatPageState extends State<ChatPage> {
     return StreamBuilder(
       stream: chatService.getMessages(widget.receiverId, senderId),
       builder: (context, snapshot) {
-        if (snapshot.hasError) return const Text("Error");
+        if (snapshot.hasError) return Text(snapshot.error.toString());
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Loading...");
+          return const CircularProgressIndicator();
         }
 
         return ListView(
