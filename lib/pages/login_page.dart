@@ -67,6 +67,7 @@ class LoginPage extends StatelessWidget {
                   hintText: "Email",
                   obscureText: false,
                   controller: _emailController,
+                  prefixIcon: const Icon(Icons.email_outlined),
                   validator: (value) {
                     return RegExp(
                                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -84,6 +85,7 @@ class LoginPage extends StatelessWidget {
                   hintText: "Password",
                   obscureText: true,
                   controller: _passwordController,
+                  prefixIcon: const Icon(Icons.lock_outline),
                   validator: (value) {
                     if (value!.length < 6) {
                       return "Password must be at least 6 characters";

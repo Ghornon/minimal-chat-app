@@ -6,6 +6,7 @@ class CustomTextFiled extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode? focusNode;
   final String? Function(String?)? validator;
+  final Widget? prefixIcon;
 
   const CustomTextFiled({
     super.key,
@@ -14,6 +15,7 @@ class CustomTextFiled extends StatelessWidget {
     required this.controller,
     this.focusNode,
     this.validator,
+    this.prefixIcon,
   });
 
   @override
@@ -25,17 +27,18 @@ class CustomTextFiled extends StatelessWidget {
           controller: controller,
           validator: validator,
           decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.tertiary)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Theme.of(context).colorScheme.primary)),
-              fillColor: Theme.of(context).colorScheme.secondary,
-              filled: true,
-              hintText: hintText,
-              hintStyle:
-                  TextStyle(color: Theme.of(context).colorScheme.primary)),
+            enabledBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(color: Theme.of(context).colorScheme.tertiary)),
+            focusedBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(color: Theme.of(context).colorScheme.primary)),
+            fillColor: Theme.of(context).colorScheme.secondary,
+            filled: true,
+            labelText: hintText,
+            hintStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+            prefixIcon: prefixIcon,
+          ),
         ));
   }
 }
